@@ -9,10 +9,13 @@ RUN apt-get update \
     && bash /tmp/miniconda.sh -b -p /opt/conda \
     && rm /tmp/miniconda.sh
 
-ENV PATH=/opt/conda/bin:$PATH
+RUN conda create -y -n vdj-runtime python=3.11 pip \
+    && conda clean -afy
 
-RUN python -m pip install --no-cache-dir --upgrade pip setuptools wheel \
-    && python -m pip install --no-cache-dir vdj-insights==0.1.0
+ENV PATH=/opt/conda/envs/vdj-runtime/bin:/opt/conda/bin:$PATH
+
+RUN conda run -n vdj-runtime python -m pip install --no-cache-dir --upgrade pip setuptools wheel \
+    && conda run -n vdj-runtime python -m pip install --no-cache-dir vdj-insights==0.1.0
 
 WORKDIR /work
 
