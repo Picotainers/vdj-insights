@@ -9,7 +9,7 @@ RUN apt-get update \
     && bash /tmp/miniconda.sh -b -p /opt/conda \
     && rm /tmp/miniconda.sh
 
-RUN /opt/conda/bin/conda create -y -n vdj-runtime python=3.11 pip \
+RUN /opt/conda/bin/conda create -y --override-channels -c conda-forge -n vdj-runtime python=3.11 pip \
     && /opt/conda/bin/conda clean -afy
 
 ENV PATH=/opt/conda/envs/vdj-runtime/bin:/opt/conda/bin:$PATH
